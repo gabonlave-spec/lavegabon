@@ -237,6 +237,23 @@ async function rendre() {
     view.insertAdjacentHTML('beforeend', `<section class="card liens"><h2>Liens officiels</h2>${liens}</section>`);
   }
   window.scrollTo(0, 0);
+  if (chemin() === '/') centrerLaveurs();
+}
+
+// Accueil : amène le titre « Nos laveurs » au milieu de l'écran (s'arrête dès que l'utilisateur touche l'écran).
+function centrerLaveurs() {
+  let stop = false, essais = 0;
+  const arret = () => { stop = true; };
+  window.addEventListener('touchstart', arret, { once: true, passive: true });
+  window.addEventListener('wheel', arret, { once: true, passive: true });
+  const go = () => {
+    if (stop) return;
+    const t = document.querySelector('#annuaire .card-head h2');
+    if (!t) return;
+    t.scrollIntoView({ behavior: 'auto', block: 'center' });
+    if (++essais < 4) setTimeout(go, 400);
+  };
+  setTimeout(go, 150);
 }
 
 window.addEventListener('hashchange', rendre);

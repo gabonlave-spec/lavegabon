@@ -6,3 +6,17 @@
 .big-tile.wide{grid-column:1/-1;min-height:112px}
 .big-tile:active{transform:translateY(2px);box-shadow:none}
 #annuaire,#comment{scroll-margin-top:90px}
+
+/* Tuiles de services : une couleur par tuile (la tuile principale reste jaune) */
+.big-tiles>.big-tile:not(.main):nth-child(2){--tc:#1565C0;--tf:#E3F0FF}
+.big-tiles>.big-tile:not(.main):nth-child(3){--tc:#2E9E5B;--tf:#E2F6EA}
+.big-tiles>.big-tile:not(.main):nth-child(4){--tc:#F08A24;--tf:#FFEBD6}
+.big-tiles>.big-tile:not(.main):nth-child(5){--tc:#7B4BC4;--tf:#EEE5FB}
+.big-tiles>.big-tile:not(.main):nth-child(6){--tc:#D6455D;--tf:#FFE4E8}
+.big-tiles>.big-tile:not(.main):nth-child(7){--tc:#00A3A3;--tf:#DDF6F6}
+.big-tiles>.big-tile:not(.main):nth-child(n+2){background:var(--tf);border-color:var(--tc);box-shadow:0 3px 0 var(--tc)}
+.big-tiles>.big-tile:not(.main):nth-child(n+2) .bt-ic{background:var(--tc)}
+.ann-tile[data-sx="h"]:not(.on){background:#E3F0FF;border-color:#1565C0}
+.ann-tile[data-sx="h"]:not(.on) span{background:#1565C0}
+.ann-tile[data-sx="f"]:not(.on){background:#FFE4EF;border-color:#D6458F}
+.ann-tile[data-sx="f"]:not(.on) span{background:#D6458F}

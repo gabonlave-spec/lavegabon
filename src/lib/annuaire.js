@@ -53,7 +53,7 @@ async function publierContact(state) {
 function tuilesArr() {
   return Object.keys(VILLES).map((v) => {
     const cles = Object.keys(ARR).filter((k) => ARR_VILLE[k] === v);
-    return `<div class="ann-arh">${esc(v)}</div><div class="ann-ars">${cles.map((k) => `<button type="button" class="ann-ar" data-ar="${esc(k)}"><b>${esc(ARR_LABEL[k])}</b><small>${esc(ARR[k].slice(0, 2).join(', '))}</small></button>`).join('')}</div>`;
+    return `<div class="ann-arh" data-v="${esc(v)}">${esc(v)}</div><div class="ann-ars" data-v="${esc(v)}">${cles.map((k) => `<button type="button" class="ann-ar" data-ar="${esc(k)}"><b>${esc(ARR_LABEL[k])}</b><small>${esc(ARR[k].slice(0, 2).join(', '))}</small></button>`).join('')}</div>`;
   }).join('');
 }
 
@@ -99,7 +99,6 @@ export function brancherAnnuaire(el, state) {
     el.querySelectorAll('.ann-tile').forEach((x) => x.classList.remove('on'));
     $('#ann-sexe').value = actif ? '' : b.dataset.sx;
     if (!actif) b.classList.add('on');
-    $('.ann-adv').open = true;
     filtrer();
     $('#annuaire').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }));
@@ -176,7 +175,7 @@ export function brancherAnnuaire(el, state) {
 
   getDocs(collection(db, 'laveurs')).then((s) => {
     tous = s.docs.map((d) => ({ _id: d.id, ...d.data() }))
-      .filter((l) => l.nom && zonesDe(l).length);
+      .filter((l) => l.nom && !l.masque && zonesDe(l).length);
     filtrer();
   }).catch(() => { $('#ann-info').textContent = "Liste indisponible pour l'instant."; });
 }

@@ -47,3 +47,13 @@
 .ann-ar b{font-size:.95rem}
 .ann-ar small{color:var(--doux);font-size:.7rem;text-align:center;line-height:1.2}
 .ann-ar.on{border-color:var(--jaune);background:#FFF8DA}
+
+/* Villes : titre centré + une couleur unique par ville */
+.ann-arh{text-align:center;color:#fff;padding:8px 12px;border-radius:12px;margin:14px 0 8px;font-size:1.1rem;letter-spacing:.3px}
+.ann-arh[data-v="Libreville"]{background:#1565C0}
+.ann-arh[data-v="Akanda"]{background:#2E9E5B}
+.ann-arh[data-v="Owendo"]{background:#F08A24}
+.ann-ars[data-v="Libreville"] .ann-ar:not(.on){background:#E3F0FF;border-color:#1565C0}
+.ann-ars[data-v="Akanda"] .ann-ar:not(.on){background:#E2F6EA;border-color:#2E9E5B}
+.ann-ars[data-v="Owendo"] .ann-ar:not(.on){background:#FFEBD6;border-color:#F08A24}
+.ann-ars[data-v="Owendo"],.ann-ars[data-v="Akanda"]{justify-content:center;grid-template-columns:repeat(2,minmax(0,140px))}
