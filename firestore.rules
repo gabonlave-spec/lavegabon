@@ -38,6 +38,12 @@ service cloud.firestore {
       allow create, update: if signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk();
     }
 
+    // Contacts des laveurs : visibles seulement par les comptes connectes.
+    match /contacts/{contactId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && contactId == uid() && me().role == 'laveur';
+    }
+
     // Tarifs de reference (modifies par l'admin).
     match /tarifs/{tarifId} {
       allow read: if true;

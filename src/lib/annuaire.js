@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase.js';
 import { SERVICES, QUARTIERS } from '../config/constants.js';
 import { esc, fcfa, toast } from './ui.js';
@@ -33,6 +33,27 @@ const km = (a, b) => {
 const zonesDe = (l) => [...new Set([...(l.quartiers || []), l.quartierPrincipal].filter(Boolean))];
 const villeDe = (q) => Object.keys(VILLES).find((v) => VILLES[v].includes(q));
 
+const WA = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.200zm4.500-6.100c-.2-.1-1.500-.7-1.700-.8-.2-.1-.4-.1-.6.100l-.8 1c-.1.200-.3.200-.5.100a6.700 6.700 0 0 1-3.300-2.900c-.2-.4.200-.4.700-1.300.1-.2 0-.3 0-.5l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.300 3 3 0 0 0-.9 2.200c0 1.300.9 2.500 1 2.700.1.200 1.800 2.800 4.400 3.900 1.600.7 2.300.7 3.100.6.500-.1 1.500-.6 1.700-1.200.2-.6.200-1.100.2-1.200-.1-.1-.3-.2-.5-.3z"/></svg>';
+
+const chiffres = (s) => String(s || '').replace(/\D/g, '');
+function intl(s) {
+  let d = chiffres(s);
+  if (d.startsWith('00')) d = d.slice(2);
+  if (d.startsWith('241')) return d;
+  return '241' + d.replace(/^0+/, '');
+}
+
+let dejaPublie = false;
+async function publierContact(state) {
+  const p = state.profile;
+  if (dejaPublie || !state.user || p?.role !== 'laveur' || !p.telephone) return;
+  dejaPublie = true;
+  try {
+    await setDoc(doc(db, 'contacts', state.user.uid),
+      { telephone: p.telephone, email: p.email || state.user.email || '', updatedAt: serverTimestamp() }, { merge: true });
+  } catch { /* regles pas encore publiees : on ignore */ }
+}
+
 export function blocAnnuaire() {
   const opts = (arr) => arr.map((x) => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
   return `<div class="ann-tiles">
@@ -59,6 +80,7 @@ export function blocAnnuaire() {
 export function brancherAnnuaire(el, state) {
   const $ = (s) => el.querySelector(s);
   if (!$('#annuaire')) return;
+  publierContact(state);
   let tous = [], pos = null;
   el.querySelectorAll('.ann-tile').forEach((b) => b.addEventListener('click', () => {
     const actif = b.classList.contains('on');
@@ -145,7 +167,7 @@ function fiche(l, state) {
   const cta = role === 'laveur' || role === 'admin' ? '' : `<a class="btn primary" href="${lien}">${role === 'client' ? 'Faire une demande' : 'Créer un compte pour commander'}</a>`;
   const contact = !state.user
     ? `<div class="ann-lock"><p><b>Veuillez vous inscrire pour contacter ce laveur.</b></p><a class="btn primary" href="#/inscription">Créer un compte</a><a class="btn ghost" href="#/connexion">Se connecter</a></div>`
-    : cta;
+    : `<div class="ann-ct"><p class="muted">Chargement du contact…</p></div>${cta}`;
   const m = document.createElement('div');
   m.className = 'ann-modal';
   m.innerHTML = `<div class="ann-sheet" role="dialog" aria-modal="true">
@@ -161,4 +183,23 @@ function fiche(l, state) {
   const fermer = () => m.remove();
   m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('.ann-x') || e.target.closest('a')) fermer(); });
   document.body.appendChild(m);
+  if (state.user) {
+    getDoc(doc(db, 'contacts', l._id)).then((s) => {
+      const zone = m.querySelector('.ann-ct');
+      if (!zone) return;
+      const c = s.exists() ? s.data() : null;
+      if (!c || !c.telephone) { zone.innerHTML = '<p class="muted">Contact pas encore publié par ce laveur.</p>'; return; }
+      const n = intl(c.telephone);
+      const msg = encodeURIComponent('Bonjour ' + (l.nom || '') + ', je vous contacte depuis LAV.');
+      zone.innerHTML = `<p class="ann-tel">${esc(c.telephone)}</p>
+        <div class="ann-btns">
+          <a class="btn primary" href="tel:+${n}">Appeler</a>
+          <a class="btn ann-wa" href="https://wa.me/${n}?text=${msg}" target="_blank" rel="noopener">${WA}<span>Joindre</span></a>
+        </div>
+        ${c.email ? `<p><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></p>` : ''}`;
+    }).catch(() => {
+      const zone = m.querySelector('.ann-ct');
+      if (zone) zone.innerHTML = '<p class="muted">Contact indisponible pour le moment.</p>';
+    });
+  }
 }

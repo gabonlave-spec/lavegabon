@@ -30,3 +30,9 @@
 .ann-tile small{color:var(--doux)}
 .ann-tile.on{border-color:var(--jaune);background:#FFF8DA}
 .ann-tile.on span{background:var(--jaune);color:var(--encre)}
+.ann-ct{margin:12px 0;padding:12px;border-radius:12px;background:var(--fond)}
+.ann-tel{font-size:1.2rem;font-weight:800;margin:0 0 8px}
+.ann-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.ann-btns .btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.ann-wa{background:#25D366;color:#fff;border:0}
+.ann-ct a{word-break:break-all}
