@@ -89,6 +89,15 @@ service cloud.firestore {
       }
     }
 
+    // ---------- Jetons d'alertes telephone ----------
+    match /pushTokens/{token} {
+      allow create, update: if signedIn()
+        && request.resource.data.uid == uid()
+        && request.resource.data.keys().hasOnly(['uid','createdAt']);
+      allow delete: if signedIn() && resource.data.uid == uid();
+      allow read: if false;
+    }
+
     // ---------- Avis ----------
     match /avis/{id} {
       allow read: if signedIn();
