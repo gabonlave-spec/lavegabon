@@ -3,6 +3,7 @@ import { brancherCloche } from './lib/alertes.js';
 import './styles/main.css';
 import './styles/admin.css';
 import './styles/photos.css';
+import './styles/menu.css';
 import { APP, LIENS } from './config/constants.js';
 import { urlOk, miniature, MAX_GALERIE } from './lib/photos.js';
 import photos from './pages/photos.js';
@@ -74,6 +75,14 @@ const ADMIN_MENU = [
   ['/mdp', 'Mon mot de passe', 'user']
 ];
 
+// Menu lateral par profil : [chemin, libelle, icone]
+const MENU = {
+  visiteur: [['/', 'Accueil', 'home'], ['/connexion', 'Se connecter', 'login'], ['/inscription', 'Créer un compte', 'userPlus'], ['/guide', 'Guide du laveur', 'info'], ['/a-propos', 'Contact', 'info']],
+  client: [['/', 'Accueil', 'home'], ['/commander', 'Nouvelle demande', 'plus'], ['/commandes', 'Mes commandes', 'list'], ['/profil', 'Mon profil', 'user'], ['/photos', 'Mes photos', 'user'], ['/mdp', 'Mon mot de passe', 'user'], ['/a-propos', 'Contact', 'info']],
+  laveur: [['/', 'Accueil', 'home'], ['/demandes', 'Demandes', 'inbox'], ['/missions', 'Mes missions', 'briefcase'], ['/profil', 'Mon profil', 'user'], ['/photos', 'Mes photos', 'user'], ['/guide', 'Guide du laveur', 'info'], ['/mdp', 'Mon mot de passe', 'user'], ['/a-propos', 'Contact', 'info']],
+  admin: ADMIN_MENU
+};
+
 const BURGER = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 
 const LOUPE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>';
@@ -114,19 +123,18 @@ function coque() {
        <button class="hbtn" id="hbellv" type="button" aria-label="Notifications">${CLOCHE}</button>
        <a href="#/connexion" class="hbtn avatar ${actif === '/connexion' ? 'on' : ''}" aria-label="Se connecter">${ico('user', 22)}</a>`;
 
-  const burger = estAdmin
-    ? `<button class="hbtn burger" id="hmenu" type="button" aria-label="Ouvrir le menu" aria-expanded="false">${BURGER}</button>` : '';
-  const tiroir = estAdmin
-    ? `<div class="scrim" id="scrim"></div>
-       <aside class="drawer" id="drawer" aria-label="Menu administrateur">
-         <div class="dhead">Administration</div>
-         <nav>${ADMIN_MENU.map(([p, t, i]) =>
-           `<a href="#${p}" class="${p === actif ? 'on' : ''}">${ico(i, 22)}<span>${t}</span></a>`).join('')}</nav>
-         <button class="dlogout" id="dout" type="button">Se déconnecter</button>
-       </aside>` : '';
+  const entrees = MENU[role] || MENU.visiteur;
+  const burger = `<button class="hbtn burger" id="hmenu" type="button" aria-label="Ouvrir le menu" aria-expanded="false">${BURGER}</button>`;
+  const tiroir = `<div class="scrim" id="scrim"></div>
+       <aside class="drawer" id="drawer" aria-label="Menu">
+         <div class="dhead">${estAdmin ? 'Administration' : 'Menu'}</div>
+         <nav>${entrees.map(([p, t, i]) =>
+           `<a href="#${p}" class="${p === actif ? 'on' : ''}">${ico(i, 26)}<span>${t}</span></a>`).join('')}</nav>
+         ${state.user ? '<button class="dlogout" id="dout" type="button">Se déconnecter</button>' : ''}
+       </aside>`;
 
   app.innerHTML = `
-    <header class="top${estAdmin ? ' has-menu' : ''}">
+    <header class="top has-menu">
       <div class="hleft">${burger}<a href="#/" class="brand"><img src="./icons/logo.svg" alt="" width="36" height="36">${nomHtml()}</a></div>
       <div class="hactions">${actions}</div>
     </header>
@@ -151,7 +159,7 @@ function coque() {
   const clocheV = document.getElementById('hbellv');
   if (clocheV) clocheV.addEventListener('click', () => { toast('Connecte-toi pour voir tes notifications.', 'info'); aller('/connexion'); });
 
-  if (estAdmin) {
+  {
     const menu = document.getElementById('hmenu');
     const basculer = (ouvert) => {
       document.body.classList.toggle('menu-open', ouvert);
@@ -161,7 +169,8 @@ function coque() {
     document.getElementById('scrim').addEventListener('click', () => basculer(false));
     document.getElementById('drawer').querySelectorAll('nav a').forEach((a) =>
       a.addEventListener('click', () => basculer(false)));
-    document.getElementById('dout').addEventListener('click', () => { basculer(false); deconnexion(); });
+    const dout = document.getElementById('dout');
+    if (dout) dout.addEventListener('click', () => { basculer(false); deconnexion(); });
   }
   return document.getElementById('view');
 }

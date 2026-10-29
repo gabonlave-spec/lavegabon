@@ -40,6 +40,7 @@ export async function activerPush(uid) {
 export async function synchroPush(uid) {
   try {
     if (Notification.permission !== 'granted') return;
+    if (localStorage.getItem('lav_push_off_' + uid) === '1') return;
     const jeton = await jetonActuel();
     if (jeton) await garder(uid, jeton);
   } catch (e) { /* ignore */ }

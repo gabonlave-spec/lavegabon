@@ -1,0 +1,19 @@
+/* Menu lateral : grandes zones tactiles */
+body .drawer nav a{font-size:1.15rem;min-height:62px;padding:14px 20px;gap:14px}
+body .drawer .dhead{font-size:1.3rem}
+body .drawer .dlogout{font-size:1.1rem;min-height:56px}
+
+/* Parametres de la cloche : interrupteurs */
+.alertes-panel .alertes-tete{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}
+.alertes-panel #alertes-reg,.alertes-panel #alertes-retour{background:none;border:0;color:var(--bleu);font:inherit;font-weight:700;cursor:pointer;padding:6px 4px}
+.alertes-panel .sw-groupe{padding:0 12px}
+.alertes-panel .sw-h{margin:12px 12px 2px;color:var(--bleu);font-size:1rem}
+.alertes-panel .sw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--trait);cursor:pointer}
+.alertes-panel .sw-t{display:flex;flex-direction:column;gap:2px;font-size:1.05rem}
+.alertes-panel .sw-t small{color:var(--doux);font-size:.85rem}
+.alertes-panel .sw input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:58px;height:34px;min-height:0;padding:0;margin:0;border:0;border-radius:17px;background:#b8c4d2;position:relative;transition:background .2s}
+.alertes-panel .sw input[type=checkbox]::after{content:"";position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
+.alertes-panel .sw input[type=checkbox]:checked{background:#1E9E5A}
+.alertes-panel .sw input[type=checkbox]:checked::after{transform:translateX(24px)}
+.alertes-panel .sw input[type=checkbox]:disabled{opacity:.5}
+.alertes-panel #sw-msg{margin:8px 12px 12px}
