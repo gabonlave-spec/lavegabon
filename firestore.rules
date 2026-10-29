@@ -22,12 +22,14 @@ service cloud.firestore {
       allow create: if signedIn() && userId == uid()
         && request.resource.data.role in ['client', 'laveur']
         && request.resource.data.statut == (request.resource.data.role == 'client' ? 'actif' : 'en_attente');
+      allow delete: if isAdmin();
       // Le role et le statut ne changent que par l'admin.
       allow update: if signedIn() && (
         isAdmin() ||
         (userId == uid()
           && request.resource.data.role == resource.data.role
           && request.resource.data.statut == resource.data.statut
+          && request.resource.data.get('email', null) == resource.data.get('email', null)
           && photosOk())
       );
     }
@@ -35,7 +37,11 @@ service cloud.firestore {
     // Profil public du laveur (services, tarifs, quartiers, photos).
     match /laveurs/{laveurId} {
       allow read: if true;
-      allow create, update: if signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk();
+      allow create: if signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk()
+        && !('masque' in request.resource.data && request.resource.data.masque == true);
+      allow update: if isAdmin() || (signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk()
+        && request.resource.data.get('masque', false) == resource.data.get('masque', false));
+      allow delete: if isAdmin();
     }
 
     // Contacts des laveurs : visibles seulement par les comptes connectes.

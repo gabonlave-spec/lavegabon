@@ -188,3 +188,6 @@ fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 #hbell{position:relative}
 #hdot.num{position:absolute;top:2px;right:2px;left:auto;bottom:auto;width:auto;min-width:20px;height:20px;padding:0 5px;transform:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:1;color:#fff;background:#E53935;border:2px solid #fff;border-radius:99px;box-sizing:border-box;overflow:visible}
 #hdot.num[hidden]{display:none}
+.info .edit{background:none;border:0;font-size:1rem;margin-left:.5rem;cursor:pointer;padding:.2rem}
+.info form.ed{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.info form.ed input,.info form.ed select{flex:1 1 100%;min-width:0}
