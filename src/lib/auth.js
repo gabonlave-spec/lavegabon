@@ -1,4 +1,5 @@
 import { auth, db } from '../config/firebase.js';
+import { pingRelais, desactiverPush } from './push.js';
 import {
   onAuthStateChanged, signInWithEmailAndPassword,
   createUserWithEmailAndPassword, signOut, updateProfile
@@ -33,7 +34,7 @@ export function initAuth() {
 }
 
 export const login = (email, mdp) => signInWithEmailAndPassword(auth, email, mdp);
-export const logout = () => signOut(auth);
+export const logout = async () => { await desactiverPush(); return signOut(auth); };
 
 export async function inscrire({ email, mdp, nom, telephone, role, quartier, sexe, age }) {
   registering = true;
@@ -45,6 +46,7 @@ export async function inscrire({ email, mdp, nom, telephone, role, quartier, sex
       createdAt: serverTimestamp()
     };
     await setDoc(doc(db, 'users', cred.user.uid), profil);
+    if (role === 'laveur') pingRelais('/notify-laveur', cred.user.uid);
     await updateProfile(cred.user, { displayName: nom });
     state.user = cred.user;
     state.profile = { id: cred.user.uid, ...profil };

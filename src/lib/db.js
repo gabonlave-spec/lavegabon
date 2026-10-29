@@ -1,4 +1,5 @@
 import { db } from '../config/firebase.js';
+import { pingRelais } from './push.js';
 import {
   collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc,
   query, where, onSnapshot, serverTimestamp
@@ -15,6 +16,7 @@ export async function creerCommande(data, contact) {
   });
   // Le telephone du client est stocke a part (visible seulement par le client et son laveur).
   await setDoc(doc(db, 'commandes', ref.id, 'prive', 'contact'), contact);
+  pingRelais('/notify-order', ref.id);
   return ref.id;
 }
 
@@ -33,8 +35,10 @@ export function ecouterMissions(uid, cb, onErr) {
   return onSnapshot(q, (s) => cb(lire(s).sort(parDateDesc)), onErr);
 }
 
-export const changerStatut = (id, champs) =>
-  updateDoc(doc(db, 'commandes', id), { ...champs, updatedAt: serverTimestamp() });
+export const changerStatut = async (id, champs) => {
+  await updateDoc(doc(db, 'commandes', id), { ...champs, updatedAt: serverTimestamp() });
+  pingRelais('/notify-status', id);
+};
 
 export async function lireContact(id) {
   const s = await getDoc(doc(db, 'commandes', id, 'prive', 'contact'));

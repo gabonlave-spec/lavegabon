@@ -3,6 +3,7 @@ import { lireLaveur, sauverLaveur } from '../lib/db.js';
 import { esc, toast, messageErreur } from '../lib/ui.js';
 import { rafraichirProfil } from '../lib/auth.js';
 import { blocDevenirLaveur, brancherDevenirLaveur } from '../lib/devenir.js';
+import { brancherAlertes } from '../lib/push.js';
 
 const LIBELLE_STATUT = { actif: 'Actif', en_attente: 'En attente de validation', suspendu: 'Suspendu' };
 
@@ -51,8 +52,9 @@ export default async function profil(el, { state, logout, aller }) {
         <a class="btn ghost" href="#/a-propos">Contact du studio</a>
         <button class="btn ghost" id="out">Se déconnecter</button>
       </div>
-    </section>${blocDevenirLaveur(p)}${blocLaveur}`;
+    </section><section class="card" id="alertes" hidden></section>${blocDevenirLaveur(p)}${blocLaveur}`;
   brancherDevenirLaveur(el, state);
+  brancherAlertes(el.querySelector('#alertes'), state.user.uid);
 
   el.querySelector('#out').addEventListener('click', async () => { await logout(); aller('/'); });
 
