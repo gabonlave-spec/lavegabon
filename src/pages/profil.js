@@ -46,7 +46,7 @@ export default async function profil(el, { state, logout, aller }) {
         <dt>Téléphone</dt><dd>${esc(p.telephone)}</dd>
         <dt>E-mail</dt><dd>${esc(p.email)}</dd>
         <dt>Quartier</dt><dd>${esc(p.quartier || '')}</dd>
-        <dt>Compte</dt><dd>${p.role}${p.role !== 'client' ? ' · ' + (LIBELLE_STATUT[p.statut] || p.statut) : ''}</dd>
+        <dt>Compte</dt><dd>${p.role === 'client' ? 'Particulier' : p.role}${p.role !== 'client' ? ' · ' + (LIBELLE_STATUT[p.statut] || p.statut) : ''}</dd>
       </dl>
       <div class="actions">
         <a class="btn ghost" href="#/a-propos">Contact du studio</a>

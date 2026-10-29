@@ -11,7 +11,7 @@ export default function inscription(el, { state, aller }) {
       <form id="f" class="form">
         <fieldset class="choix">
           <legend>Je suis</legend>
-          <label><input type="radio" name="role" value="client" checked> Client<small>Je veux faire laver</small></label>
+          <label><input type="radio" name="role" value="client" checked> Particulier<small>Je veux faire laver</small></label>
           <label><input type="radio" name="role" value="laveur"> Laveur<small>Je veux laver pour les autres</small></label>
         </fieldset>
         <label>Nom complet<input name="nom" required autocomplete="name"></label>
