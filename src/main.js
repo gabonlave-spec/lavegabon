@@ -1,3 +1,4 @@
+import './lib/pwa.js';
 import './lib/splash.js';
 import { brancherCloche } from './lib/alertes.js';
 import './styles/main.css';
