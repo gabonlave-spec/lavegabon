@@ -118,7 +118,7 @@ function coque() {
   const actions = state.user
     ? `<button class="hbtn" id="hsearch" type="button" aria-label="Rechercher">${LOUPE}</button>
        <button class="hbtn" id="hbell" type="button" aria-label="Notifications">${CLOCHE}<span class="dot" id="hdot" hidden></span></button>
-       <a href="#/profil" class="hbtn avatar ${actif === '/profil' ? 'on' : ''}" aria-label="Mon profil">${photoHeader ? `<img src="${esc(photoHeader)}" alt="">` : (initiale || ico('user', 22))}</a>
+       <span class="avwrap"><a href="#/profil" class="hbtn avatar ${actif === '/profil' ? 'on' : ''}" aria-label="Mon profil">${photoHeader ? `<img src="${esc(photoHeader)}" alt="">` : (initiale || ico('user', 22))}</a><i class="pres" title="Connecté" aria-label="Connecté"></i></span>
        <button class="hbtn" id="hout" type="button" aria-label="Se déconnecter">${ico('logout', 22)}</button>`
     : `<button class="hbtn" id="hsearch" type="button" aria-label="Rechercher">${LOUPE}</button>
        <button class="hbtn" id="hbellv" type="button" aria-label="Notifications">${CLOCHE}</button>

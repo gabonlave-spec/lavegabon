@@ -49,3 +49,9 @@ body.menu-open .scrim { opacity: 1; pointer-events: auto; }
 .top .hactions { gap: 6px; }
 .top .hbtn { width: 40px; height: 40px; min-width: 40px; }
 .top.has-menu .brand img { display: none; }
+
+/* Presence : point vert */
+.avwrap{position:relative;display:inline-flex}
+.pres{position:absolute;right:0;bottom:0;width:13px;height:13px;border-radius:50%;background:#22c55e;border:2px solid #fff;pointer-events:none;z-index:2;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
+.pres.off{background:#9aa5b1}
+.pres-in{display:inline-block;width:10px;height:10px;border-radius:50%;background:#22c55e;margin-right:6px;vertical-align:baseline}
