@@ -60,6 +60,8 @@ service cloud.firestore {
       );
 
       allow create: if signedIn() && me().role == 'client'
+        && id.matches('^[A-Za-z0-9]{20}$')
+        && request.resource.data.laveurId == null
         && request.resource.data.clientId == uid()
         && request.resource.data.statut == 'en_attente'
         && request.resource.data.total is number

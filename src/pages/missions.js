@@ -18,7 +18,7 @@ export default function missions(el, { state }) {
         <p class="muted">${fmtDate(c.date, c.heure)} · ${esc(c.quartier)}</p>
         <p>${esc(c.clientNom)} — ${esc(c.adresse)}</p>
         ${c.position ? `<p><a target="_blank" rel="noopener" href="${lienCarte(Number(c.position.lat), Number(c.position.lng))}">Voir sur la carte</a></p>` : ''}
-        <p class="tel" id="tel-${c.id}"></p>
+        <p class="tel" id="tel-${esc(c.id)}"></p>
         <div class="actions">
           <button class="btn ghost small" data-contact="${esc(c.id)}">Voir le contact</button>
           ${c.statut === 'acceptee' ? `<button class="btn primary small" data-etat="en_cours" data-id="${esc(c.id)}">Démarrer</button>` : ''}
