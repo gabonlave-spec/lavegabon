@@ -57,3 +57,8 @@
 .ann-ars[data-v="Akanda"] .ann-ar:not(.on){background:#E2F6EA;border-color:#2E9E5B}
 .ann-ars[data-v="Owendo"] .ann-ar:not(.on){background:#FFEBD6;border-color:#F08A24}
 .ann-ars[data-v="Owendo"],.ann-ars[data-v="Akanda"]{justify-content:center;grid-template-columns:repeat(2,minmax(0,140px))}
+
+/* Titre « Nos laveurs » : centré et stylé */
+#annuaire .card-head{justify-content:center;text-align:center}
+#annuaire .card-head h2{display:block;margin:6px auto 4px;text-align:center;text-transform:uppercase;font-weight:900;font-size:1.7rem;letter-spacing:.09em;background:linear-gradient(90deg,#0b4fb3,#1e88e5 55%,#f2a900);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+#annuaire .card-head h2::after{content:"";display:block;width:70px;height:5px;margin:10px auto 0;border-radius:3px;background:#FFD23F}

@@ -240,7 +240,7 @@ async function rendre() {
   if (chemin() === '/') centrerLaveurs();
 }
 
-// Accueil : amène le titre « Nos laveurs » au milieu de l'écran (s'arrête dès que l'utilisateur touche l'écran).
+// Accueil : ouvre la page au niveau des tuiles de services, juste sous l'en-tête (s'arrête dès que l'utilisateur touche l'écran).
 function centrerLaveurs() {
   let stop = false, essais = 0;
   const arret = () => { stop = true; };
@@ -248,9 +248,13 @@ function centrerLaveurs() {
   window.addEventListener('wheel', arret, { once: true, passive: true });
   const go = () => {
     if (stop) return;
-    const t = document.querySelector('#annuaire .card-head h2');
-    if (!t) return;
-    t.scrollIntoView({ behavior: 'auto', block: 'center' });
+    const tuiles = document.querySelector('.big-tiles');
+    if (!tuiles) return;
+    let bas = 0;
+    document.querySelectorAll('.hbtn').forEach((b) => { bas = Math.max(bas, b.getBoundingClientRect().bottom); });
+    if (!bas) bas = 70;
+    const cible = tuiles.getBoundingClientRect().top + window.scrollY - (bas + 16);
+    window.scrollTo({ top: Math.max(0, cible), behavior: 'auto' });
     if (++essais < 4) setTimeout(go, 400);
   };
   setTimeout(go, 150);
