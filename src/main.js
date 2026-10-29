@@ -4,6 +4,8 @@ import './styles/photos.css';
 import { APP, LIENS } from './config/constants.js';
 import { urlOk, miniature, MAX_GALERIE } from './lib/photos.js';
 import photos from './pages/photos.js';
+import guide from './pages/guide.js';
+import mdp from './pages/mdp.js';
 import { configOk } from './config/firebase.js';
 import { state, initAuth, onState, logout } from './lib/auth.js';
 import { esc, nomHtml, toast } from './lib/ui.js';
@@ -34,6 +36,8 @@ const ROUTES = {
   '/missions':       { page: missions,  roles: ['laveur'] },
   '/profil':         { page: profil,    roles: ['client', 'laveur', 'admin'] },
   '/photos':         { page: photos,    roles: ['client', 'laveur', 'admin'] },
+  '/guide':          { page: guide },
+  '/mdp':            { page: mdp },
   '/admin':          { page: admin,         roles: ['admin'] },
   '/admin/commandes':{ page: pageCommandes, roles: ['admin'] },
   '/admin/demandes': { page: pageDemandes,  roles: ['admin'] },
@@ -63,7 +67,9 @@ const ADMIN_MENU = [
   ['/admin/tarifs', 'Tarifs', 'list'],
   ['/admin/avis', 'Notes et avis', 'info'],
   ['/admin/finances', 'Finances', 'briefcase'],
-  ['/photos', 'Mes photos', 'user']
+  ['/photos', 'Mes photos', 'user'],
+  ['/guide', 'Guide du laveur', 'info'],
+  ['/mdp', 'Mon mot de passe', 'user']
 ];
 
 const BURGER = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
@@ -182,7 +188,25 @@ async function rendre() {
       <section class="card photocarte">${mini}
         <div class="txt"><b>Mes photos</b><span class="muted">Profil et galerie (${n}/${MAX_GALERIE})</span></div>
         <a class="btn primary small" href="#/photos">Gérer</a>
+      </section>
+      <section class="card photocarte">
+        <span class="mini">?</span>
+        <div class="txt"><b>Guide du laveur</b><span class="muted">Profil, photos, lien WhatsApp</span></div>
+        <a class="btn ghost small" href="#/guide">Lire</a>
+      </section>
+      <section class="card photocarte">
+        <span class="mini">•••</span>
+        <div class="txt"><b>Sécurité</b><span class="muted">Changer mon mot de passe</span></div>
+        <a class="btn ghost small" href="#/mdp">Changer</a>
       </section>`);
+  }
+
+  // Lien « Mot de passe oublié ? » sous le formulaire de connexion.
+  if (chemin() === '/connexion' && !state.user) {
+    const form = view.querySelector('form');
+    const lien = '<p class="oubli"><a href="#/mdp">Mot de passe oublié ?</a></p>';
+    if (form) form.insertAdjacentHTML('afterend', lien);
+    else view.insertAdjacentHTML('beforeend', lien);
   }
 
   // Liens officiels sur la page À propos.
@@ -190,6 +214,8 @@ async function rendre() {
     const liens = [
       LIENS.github && `<a class="btn ghost" href="${esc(LIENS.github)}" target="_blank" rel="noopener">Code officiel sur GitHub</a>`,
       LIENS.site && `<a class="btn ghost" href="${esc(LIENS.site)}" target="_blank" rel="noopener">Site officiel</a>`,
+      `<a class="btn ghost" href="#/guide">Guide du laveur</a>`,
+      `<a class="btn ghost" href="./guide-creer-son-site.pdf" download>Guide gratuit : créer son site (PDF)</a>`,
       `<a class="btn ghost" href="mailto:${esc(APP.email)}">${esc(APP.email)}</a>`,
       `<a class="btn ghost" href="tel:${esc(APP.telephoneLien)}">${esc(APP.telephone)}</a>`
     ].filter(Boolean).join('');
