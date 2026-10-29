@@ -4,14 +4,10 @@ import { SERVICES, QUARTIERS } from '../config/constants.js';
 import { esc, fcfa, toast } from './ui.js';
 import { urlOk, miniature } from './photos.js';
 import { positionActuelle } from './geo.js';
+import { VILLES, ARR, ARR_VILLE, ARR_LABEL, coordDe } from './zones.js';
 import '../styles/annuaire.css';
 
 // Villes du Grand Libreville -> quartiers (modifiable)
-const VILLES = {
-  'Libreville': ['Louis', 'Glass', 'Mont-Bouët', 'Nombakélé', 'Akébé', 'Batterie IV', 'Lalala', 'Sotega', 'Sablière', 'Nkembo', 'Oloumi', 'Okala', 'PK5', 'PK8', 'Charbonnages', 'Montagne Sainte', 'Cocotiers', 'Plaine Niger'],
-  'Akanda': ['Angondjé', 'Akanda'],
-  'Owendo': ['Owendo', 'Awendjé']
-};
 // Coordonnees APPROXIMATIVES des quartiers (pour le tri par distance)
 const COORD = {
   'Louis': [0.3925, 9.4500], 'Glass': [0.3935, 9.4565], 'Mont-Bouët': [0.3880, 9.4620],
@@ -54,6 +50,21 @@ async function publierContact(state) {
   } catch { /* regles pas encore publiees : on ignore */ }
 }
 
+function tuilesArr() {
+  return Object.keys(VILLES).map((v) => {
+    const cles = Object.keys(ARR).filter((k) => ARR_VILLE[k] === v);
+    return `<div class="ann-arh">${esc(v)}</div><div class="ann-ars">${cles.map((k) => `<button type="button" class="ann-ar" data-ar="${esc(k)}"><b>${esc(ARR_LABEL[k])}</b><small>${esc(ARR[k].slice(0, 2).join(', '))}</small></button>`).join('')}</div>`;
+  }).join('');
+}
+
+function optionsQuartiers(v, ar) {
+  const og = (label, liste) => `<optgroup label="${esc(label)}">${liste.map((q) => `<option value="${esc(q)}">${esc(q)}</option>`).join('')}</optgroup>`;
+  const groupes = Object.keys(ARR).filter((k) => (!v || ARR_VILLE[k] === v) && (!ar || k === ar))
+    .map((k) => og(ARR_VILLE[k] + ' · ' + ARR_LABEL[k], ARR[k])).join('');
+  const reste = (!v && !ar) ? QUARTIERS.filter((q) => q !== 'Autre' && !Object.values(ARR).some((a) => a.includes(q))) : [];
+  return '<option value="">Tous</option>' + groupes + (reste.length ? og('Autres', reste) : '');
+}
+
 export function blocAnnuaire() {
   const opts = (arr) => arr.map((x) => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
   return `<div class="ann-tiles">
@@ -62,6 +73,7 @@ export function blocAnnuaire() {
   </div>
   <section class="card" id="annuaire">
     <div class="card-head"><h2>Nos laveurs</h2></div>
+    <details class="ann-arr" open><summary>Par arrondissement</summary>${tuilesArr()}</details>
     <div class="ann-bar">
       <input type="search" id="ann-q" placeholder="Nom, quartier, service…" aria-label="Rechercher un laveur">
       <button class="btn ghost small" id="ann-geo" type="button">Près de moi</button>
@@ -81,7 +93,7 @@ export function brancherAnnuaire(el, state) {
   const $ = (s) => el.querySelector(s);
   if (!$('#annuaire')) return;
   publierContact(state);
-  let tous = [], pos = null;
+  let tous = [], pos = null, arSel = '';
   el.querySelectorAll('.ann-tile').forEach((b) => b.addEventListener('click', () => {
     const actif = b.classList.contains('on');
     el.querySelectorAll('.ann-tile').forEach((x) => x.classList.remove('on'));
@@ -98,6 +110,7 @@ export function brancherAnnuaire(el, state) {
       const z = zonesDe(l);
       if (v && !z.some((x) => VILLES[v].includes(x))) return false;
       if (qr && !z.includes(qr)) return false;
+      if (arSel && !z.some((x) => ARR[arSel].includes(x))) return false;
       if (sv && !(l.services || []).includes(sv)) return false;
       if (sx && !(sx === 'f' ? norm(l.sexe).startsWith('f') : /^(h|m)/.test(norm(l.sexe)))) return false;
       if (q && !norm([l.nom, l.bio, z.join(' '), (l.services || []).join(' ')].join(' ')).includes(q)) return false;
@@ -106,7 +119,7 @@ export function brancherAnnuaire(el, state) {
     L = L.map((l) => {
       let d = null;
       if (pos) {
-        const ds = zonesDe(l).filter((x) => COORD[x]).map((x) => km([pos.lat, pos.lng], COORD[x]));
+        const ds = zonesDe(l).map((x) => COORD[x] || coordDe(x)).filter(Boolean).map((c) => km([pos.lat, pos.lng], c));
         d = ds.length ? Math.min(...ds) : null;
       }
       return { ...l, _d: d };
@@ -143,6 +156,18 @@ export function brancherAnnuaire(el, state) {
     catch { toast('Position refusée ou indisponible. Utilise la ville et le quartier.', 'info'); }
     b.disabled = false; filtrer();
   });
+  const majQrt = () => { $('#ann-qrt').innerHTML = optionsQuartiers($('#ann-ville').value, arSel); };
+  const majTuiles = () => el.querySelectorAll('.ann-ar').forEach((b) => b.classList.toggle('on', b.dataset.ar === arSel));
+  majQrt();
+  $('#ann-ville').addEventListener('change', () => {
+    if (arSel && ARR_VILLE[arSel] !== $('#ann-ville').value) { arSel = ''; majTuiles(); }
+    majQrt(); filtrer();
+  });
+  el.querySelectorAll('.ann-ar').forEach((b) => b.addEventListener('click', () => {
+    arSel = arSel === b.dataset.ar ? '' : b.dataset.ar;
+    if (arSel) $('#ann-ville').value = ARR_VILLE[arSel];
+    majTuiles(); majQrt(); filtrer();
+  }));
   $('#ann-grid').addEventListener('click', (e) => {
     const it = e.target.closest('.ann-item');
     const l = it && tous.find((x) => x._id === it.dataset.id);

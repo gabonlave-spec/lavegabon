@@ -36,10 +36,31 @@ export const SERVICES = [
 export const SUPPLEMENT_URGENT = 1000;
 
 export const QUARTIERS = [
-  'Louis', 'Glass', 'Mont-Bouët', 'Nombakélé', 'Akébé', 'Batterie IV', 'Lalala',
-  'Sotega', 'Sablière', 'Nkembo', 'Oloumi', 'Okala', 'Angondjé', 'Akanda',
-  'Owendo', 'PK5', 'PK8', 'Charbonnages', 'Montagne Sainte', 'Awendjé',
-  'Cocotiers', 'Plaine Niger', 'Autre'
+  "1er Campement", "Abénélang", "ACAE", "Aérodrome", "Akanda",
+  "Akébé", "Akébé Frontière", "Akébé Plaine", "Akébé Ville", "Akémindjogoni",
+  "Akournam", "Alénakiri", "Alibandeng", "Ambowè", "Angondjé",
+  "Atong Abè", "Avenue de Cointet", "Avorbam", "Awendjé", "Awoungou",
+  "Bambou-Chine", "Bangos", "Batavéa", "Batterie IV", "Beau-Séjour",
+  "Beaulieu", "Bel-Air", "Belle-Vue", "Belles-Peintures", "Bisségué",
+  "Camp de Gaulle", "Camp des Boys", "Cap Caravane", "Cap Estérias", "Cap Santa Clara",
+  "Carrefour Hassan", "Centre-ville", "Charbonnages", "Cinq Palmiers", "Cité Amissa",
+  "Cité Comilog", "Cité Damas", "Cité OCTRA", "Cité SNI", "Cocotiers",
+  "Cosmopark", "Delta Postal", "Derrière l'Hôpital", "Derrière la Prison", "Dragon",
+  "Entraco", "Ewoumié", "FOPI", "Gigi", "Glass",
+  "Golf", "Gros Bouquet", "Gué-Gué", "IAI", "INJS",
+  "Kalikak", "Kinguélé", "La Campagne", "La Peyrie", "Lalala",
+  "Lalala Dakar", "Likouala", "London", "Louis", "Malaba",
+  "Melen ENA", "Mindoubé", "Mont-Bouët", "Montagne Sainte", "Montalier",
+  "Nkembo", "Nombakélé", "Nombakélé Sud", "Nzeng-Ayong", "Nzeng-Miang",
+  "Okala", "Oloumi", "Ondogo", "Ongongo", "Owendo",
+  "Owendo Port", "Ozangué", "Petit Paris", "Petit Village", "Peyrie Dakar",
+  "PK10", "PK11", "PK12", "PK5", "PK6",
+  "PK7", "PK8", "PK9", "Plaine Niger", "Plein Ciel",
+  "Pont d'Akébé", "Port-Môle", "Quaben", "Razel", "Rio",
+  "Sablière", "Saint-Michel", "Sainte-Anne", "Service Civique", "Sherko",
+  "Sibang", "SODUCO", "Sogadel", "Sorbonne", "Sotega",
+  "STFO", "Terre Nouvelle", "Trois Quartiers", "Vallée Sainte-Marie", "Venez-Voir",
+  "Virié", "Autre"
 ];
 
 export const STATUTS = {
