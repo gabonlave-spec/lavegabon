@@ -23,3 +23,10 @@
 .ann-adv[open] summary::after{content:" ▴"}
 .ann-lock{display:flex;flex-direction:column;gap:8px;margin-top:10px;padding:12px;border-radius:12px;background:var(--fond)}
 .ann-lock p{margin:0}
+.ann-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px}
+.ann-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 8px;border:2px solid var(--trait);border-radius:var(--rayon);background:var(--carte);color:var(--encre);font:inherit;cursor:pointer}
+.ann-tile span{width:46px;height:46px;border-radius:50%;background:var(--bleu);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;margin-bottom:4px}
+.ann-tile b{font-size:1.05rem}
+.ann-tile small{color:var(--doux)}
+.ann-tile.on{border-color:var(--jaune);background:#FFF8DA}
+.ann-tile.on span{background:var(--jaune);color:var(--encre)}

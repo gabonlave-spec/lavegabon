@@ -46,7 +46,7 @@ export async function pageTableau(el) {
       <a class="btn ghost" href="#/admin/demandes">Demandes laveurs (${dem.length})</a>
       <a class="btn ghost" href="#/admin/commandes">Commandes (${st.total})</a>
       <a class="btn ghost" href="#/admin/laveurs">Laveurs</a>
-      <a class="btn ghost" href="#/admin/clients">Clients</a>
+      <a class="btn ghost" href="#/admin/clients">Particuliers</a>
       <a class="btn ghost" href="#/admin/tarifs">Tarifs</a>`;
   } catch (e) { el.querySelector('#stats').innerHTML = erreur(e); }
 }
@@ -179,7 +179,7 @@ function pageUtilisateurs({ titre, vide, lister, avecDetails }) {
 }
 
 export const pageLaveurs = pageUtilisateurs({ titre: 'Laveurs', vide: 'Aucun laveur inscrit.', lister: listerLaveurs, avecDetails: true });
-export const pageClients = pageUtilisateurs({ titre: 'Clients', vide: 'Aucun client inscrit.', lister: listerClients, avecDetails: false });
+export const pageClients = pageUtilisateurs({ titre: 'Particuliers', vide: 'Aucun particulier inscrit.', lister: listerClients, avecDetails: false });
 
 // ---------- Tarifs ----------
 export async function pageTarifs(el) {

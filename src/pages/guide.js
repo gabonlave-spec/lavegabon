@@ -27,14 +27,14 @@ const MESSAGES = [
     'Bonjour tout le monde ! Je lave votre linge, lessive ou vaisselle à domicile à [quartier], dès [prix] FCFA. Pour commander, un clic : [votre lien]. Partagez autour de vous, merci !'],
   ['Phrase de présentation (profil, bio)',
     'Laveur à domicile à [quartier]. Linge, lessive, vaisselle dès [prix] FCFA. Voir mes photos et commander : [votre lien]'],
-  ['Message à envoyer à un client',
+  ['Message à envoyer à un particulier',
     'Bonjour [prénom], je lave à domicile dans votre quartier. Vous pouvez voir mes tarifs et mes photos ici : [votre lien]. Dites-moi ce qui vous convient, je vous réponds directement.']
 ];
 
 const ERREURS = [
   ['Le profil est lent à charger', 'Évitez les photos en double : l\'application réduit déjà chaque photo, mais 30 photos identiques ne servent à rien.'],
   ['Le bouton WhatsApp ne marche pas', 'Vérifiez l\'indicatif (241), supprimez les espaces et le signe +, puis recopiez le lien entier.'],
-  ['Les clients ne comprennent pas ce que vous faites', 'Une phrase : ce que vous lavez + pour qui + où.'],
+  ['Les particuliers ne comprennent pas ce que vous faites', 'Une phrase : ce que vous lavez + pour qui + où.'],
   ['Vos prix manquent', 'Un profil sans prix fait fuir. Affichez au moins « à partir de … FCFA ».'],
   ['Personne ne vous contacte', 'Partagez votre lien chaque jour pendant 7 jours avant de conclure que ça ne marche pas.'],
   ['Vous avez oublié d\'enregistrer', 'Touchez « Enregistrer » après chaque changement de profil ou de tarifs.']
@@ -98,7 +98,7 @@ export default async function guide(el) {
 
     <section class="card guide">
       <h2>3. Des prix clairs</h2>
-      <p>Un profil sans prix fait fuir les clients. Affichez vos tarifs de départ, par exemple « linge à partir de 500 FCFA le kilo ». Les prix de référence de ${esc(APP.nomLong)} figurent dans le tableau « Services et prix de départ » de l'accueil.</p>
+      <p>Un profil sans prix fait fuir les particuliers. Affichez vos tarifs de départ, par exemple « linge à partir de 500 FCFA le kilo ». Les prix de référence de ${esc(APP.nomLong)} figurent dans le tableau « Services et prix de départ » de l'accueil.</p>
     </section>
 
     <section class="card guide wa">
@@ -119,11 +119,11 @@ export default async function guide(el) {
     <section class="card guide">
       <h2>5. Faites connaître votre lien</h2>
       <ul>
-        <li><b>WhatsApp</b> : mettez-le dans votre profil Business ou vos « Infos », publiez-le en statut, envoyez-le à vos clients actuels.</li>
+        <li><b>WhatsApp</b> : mettez-le dans votre profil Business ou vos « Infos », publiez-le en statut, envoyez-le à vos contacts actuels.</li>
         <li><b>Facebook</b> : ajoutez-le dans la section « À propos » et épinglez une publication avec une photo.</li>
         <li><b>TikTok</b> : mettez-le dans votre bio et terminez chaque vidéo par « Le lien est dans ma bio ».</li>
         <li><b>Une habitude simple</b> : pendant 7 jours, publiez chaque jour une photo ou une vidéo avec votre lien.</li>
-        <li><b>Le bouche-à-oreille</b> : demandez à vos 5 meilleurs clients de partager votre lien.</li>
+        <li><b>Le bouche-à-oreille</b> : demandez à vos 5 meilleurs contacts de partager votre lien.</li>
       </ul>
     </section>
 

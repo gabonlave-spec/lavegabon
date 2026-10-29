@@ -64,7 +64,7 @@ const ADMIN_MENU = [
   ['/admin/commandes', 'Commandes', 'list'],
   ['/admin/demandes', 'Demandes laveurs', 'inbox'],
   ['/admin/laveurs', 'Laveurs', 'briefcase'],
-  ['/admin/clients', 'Clients', 'user'],
+  ['/admin/clients', 'Particuliers', 'user'],
   ['/admin/tarifs', 'Tarifs', 'list'],
   ['/admin/avis', 'Notes et avis', 'info'],
   ['/admin/finances', 'Finances', 'briefcase'],

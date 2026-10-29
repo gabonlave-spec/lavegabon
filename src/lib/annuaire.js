@@ -35,7 +35,11 @@ const villeDe = (q) => Object.keys(VILLES).find((v) => VILLES[v].includes(q));
 
 export function blocAnnuaire() {
   const opts = (arr) => arr.map((x) => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
-  return `<section class="card" id="annuaire">
+  return `<div class="ann-tiles">
+    <button type="button" class="ann-tile" data-sx="h"><span>H</span><b>Laveurs</b><small>Hommes</small></button>
+    <button type="button" class="ann-tile" data-sx="f"><span>F</span><b>Laveuses</b><small>Femmes</small></button>
+  </div>
+  <section class="card" id="annuaire">
     <div class="card-head"><h2>Nos laveurs</h2></div>
     <div class="ann-bar">
       <input type="search" id="ann-q" placeholder="Nom, quartier, service…" aria-label="Rechercher un laveur">
@@ -56,6 +60,15 @@ export function brancherAnnuaire(el, state) {
   const $ = (s) => el.querySelector(s);
   if (!$('#annuaire')) return;
   let tous = [], pos = null;
+  el.querySelectorAll('.ann-tile').forEach((b) => b.addEventListener('click', () => {
+    const actif = b.classList.contains('on');
+    el.querySelectorAll('.ann-tile').forEach((x) => x.classList.remove('on'));
+    $('#ann-sexe').value = actif ? '' : b.dataset.sx;
+    if (!actif) b.classList.add('on');
+    $('.ann-adv').open = true;
+    filtrer();
+    $('#annuaire').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
 
   const filtrer = () => {
     const q = norm($('#ann-q').value), v = $('#ann-ville').value, qr = $('#ann-qrt').value, sv = $('#ann-svc').value, sx = $('#ann-sexe').value;
