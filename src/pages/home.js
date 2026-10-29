@@ -3,6 +3,7 @@ import { fcfa, fmtDate, esc, badge, messageErreur, nomHtml } from '../lib/ui.js'
 import { ecouterCommandesClient, ecouterDemandesOuvertes, lireLaveur, filtrerPourLaveur } from '../lib/db.js';
 import { rafraichirProfil } from '../lib/auth.js';
 import { blocDevenirLaveur, brancherDevenirLaveur } from '../lib/devenir.js';
+import { blocAnnuaire, brancherAnnuaire } from '../lib/annuaire.js';
 
 const MAX = 3;
 
@@ -45,6 +46,8 @@ export default async function home(el, { state }) {
       <div class="actions">${cta}</div>
     </section>
 
+    ${blocAnnuaire()}
+
     ${blocDemandes}
 
     <section class="card">
@@ -71,6 +74,7 @@ export default async function home(el, { state }) {
     ${blocLaveur}`;
 
   brancherDevenirLaveur(el, state);
+  brancherAnnuaire(el, state);
 
   const dem = el.querySelector('#dem');
   if (!dem) return;

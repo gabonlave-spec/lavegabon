@@ -34,7 +34,7 @@ service cloud.firestore {
 
     // Profil public du laveur (services, tarifs, quartiers, photos).
     match /laveurs/{laveurId} {
-      allow read: if signedIn();
+      allow read: if true;
       allow create, update: if signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk();
     }
 

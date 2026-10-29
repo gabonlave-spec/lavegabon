@@ -1,0 +1,19 @@
+.ann-bar{display:flex;gap:8px;margin:8px 0}
+.ann-bar input{flex:1;min-width:0}
+#ann-geo.on{background:var(--jaune);color:var(--encre)}
+.ann-adv{margin:6px 0 10px}
+.ann-adv summary{cursor:pointer;font-weight:700;color:var(--bleu)}
+.ann-adv label{display:block;margin-top:8px}
+.ann-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ann-item{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:6px 2px;cursor:pointer;color:var(--encre);font:inherit}
+.ann-av{width:76px;height:76px;border-radius:50%;border:3px solid var(--jaune);overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--bleu);color:#fff;font-size:28px;font-weight:800}
+.ann-av img{width:100%;height:100%;object-fit:cover}
+.ann-item b{font-size:.9rem;text-align:center;word-break:break-word}
+.ann-item small{color:var(--doux)}
+.ann-modal{position:fixed;inset:0;background:rgba(15,42,74,.6);z-index:1000;display:flex;align-items:flex-end;justify-content:center}
+.ann-sheet{background:var(--carte);width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:var(--rayon) var(--rayon) 0 0;padding:18px;position:relative;text-align:center}
+.ann-x{position:absolute;top:8px;right:12px;background:none;border:0;font-size:30px;line-height:1;color:var(--encre);cursor:pointer}
+.ann-big{width:140px;height:140px;border-radius:50%;object-fit:cover;border:4px solid var(--jaune)}
+.ann-svc{text-align:left;padding-left:18px}
+.ann-gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.ann-gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
