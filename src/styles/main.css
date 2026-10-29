@@ -191,3 +191,4 @@ fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 .info .edit{background:none;border:0;font-size:1rem;margin-left:.5rem;cursor:pointer;padding:.2rem}
 .info form.ed{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
 .info form.ed input,.info form.ed select{flex:1 1 100%;min-width:0}
+.card h2 .edit{font-size:1rem;margin-left:.5rem;text-decoration:none;vertical-align:middle}

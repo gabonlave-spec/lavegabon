@@ -64,7 +64,7 @@ export default async function home(el, { state }) {
     </section>
 
     <section class="card">
-      <h2>Services et prix de départ</h2>
+      <h2>Services et prix de départ${role === 'admin' ? ' <a class="edit" href="#/admin/tarifs" aria-label="Modifier les tarifs">✏️</a>' : ''}</h2>
       <div class="table-wrap">
         <table class="tarifs">
           <caption class="sr">Services et prix de départ</caption>
