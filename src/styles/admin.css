@@ -1,0 +1,51 @@
+/* ---- Menu lateral admin ---- */
+.hleft { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.burger svg { display: block; }
+.scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 900; }
+.drawer {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(82vw, 300px);
+  background: #055a3a; color: #fff; z-index: 901;
+  transform: translateX(-102%); transition: transform .25s ease;
+  display: flex; flex-direction: column; overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, .35);
+}
+body.menu-open .drawer { transform: none; }
+body.menu-open .scrim { opacity: 1; pointer-events: auto; }
+.drawer .dhead { padding: 22px 20px 14px; font-weight: 700; font-size: 1.15rem; border-bottom: 3px solid #ffd23f; }
+.drawer nav { display: flex; flex-direction: column; padding: 8px 0; flex: 1; }
+.drawer nav a {
+  display: flex; align-items: center; gap: 14px; padding: 15px 20px;
+  color: #fff; text-decoration: none; font-size: 1.05rem; border-left: 5px solid transparent;
+}
+.drawer nav a.on { background: rgba(255, 210, 63, .18); border-left-color: #ffd23f; font-weight: 700; }
+.drawer .dlogout {
+  margin: 12px 20px 22px; padding: 13px; border-radius: 12px; font: inherit; font-weight: 700;
+  background: transparent; color: #fff; border: 2px solid rgba(255, 255, 255, .6); cursor: pointer;
+}
+
+/* ---- Pages admin ---- */
+.bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.bar input, .bar select { flex: 1; min-width: 130px; padding: 11px 12px; border: 2px solid #d3e0da; border-radius: 12px; font: inherit; background: #fff; }
+.shortcuts a { display: block; margin-bottom: 10px; text-align: center; }
+.ca { text-align: center; margin-top: 14px; }
+.tarif { border: 1px solid #d3e0da; border-radius: 12px; margin: 0 0 12px; padding: 8px 12px 12px; }
+.tarif legend { font-weight: 700; padding: 0 6px; }
+.tarif label { display: block; margin-top: 8px; }
+.tarif input { width: 100%; box-sizing: border-box; padding: 11px 12px; border: 2px solid #d3e0da; border-radius: 12px; font: inherit; }
+
+/* ---- Tableau des prix : la colonne des prix ne passe plus a la ligne ---- */
+.card table td:last-child, .card table th:last-child { white-space: nowrap; padding-left: 8px; padding-right: 8px; }
+
+/* ---- En-tete : boutons contrastes (fond clair, icone verte) ---- */
+.top .hbtn:not(.avatar) { background: #fff; color: #055a3a; border: 2px solid #fff; position: relative; }
+.top .hbtn:not(.avatar):active { background: #e6f2ec; }
+.top .hbtn.on:not(.avatar) { border-color: #ffd23f; box-shadow: 0 0 0 2px #ffd23f; }
+.top .hbtn.avatar { color: #1a1a1a; border: 2px solid #fff; }
+.top .hbtn.avatar.on { box-shadow: 0 0 0 2px #fff; }
+.top .hbtn .dot { position: absolute; top: 3px; right: 3px; width: 11px; height: 11px; border-radius: 50%; background: #e53935; border: 2px solid #fff; }
+.top .hbtn .dot[hidden] { display: none; }
+
+/* Plus de place pour 5 boutons : boutons plus compacts et logo masque avec le menu admin */
+.top .hactions { gap: 6px; }
+.top .hbtn { width: 40px; height: 40px; min-width: 40px; }
+.top.has-menu .brand img { display: none; }

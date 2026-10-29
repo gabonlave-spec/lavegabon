@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function me() { return get(/databases/$(database)/documents/users/$(uid())).data; }
+    function isAdmin() { return signedIn() && me().role == 'admin'; }
+    function isLaveurActif() { return signedIn() && me().role == 'laveur' && me().statut == 'actif'; }
+
+    // Photos : photo de profil (texte) et galerie de 30 adresses maximum.
+    function photosOk() {
+      return (!('galerie' in request.resource.data)
+               || (request.resource.data.galerie is list && request.resource.data.galerie.size() <= 30))
+          && (!('photoUrl' in request.resource.data) || request.resource.data.photoUrl is string);
+    }
+
+    // ---------- Profils ----------
+    match /users/{userId} {
+      allow read: if signedIn() && (userId == uid() || isAdmin());
+      // Inscription : seulement client ou laveur, jamais admin.
+      allow create: if signedIn() && userId == uid()
+        && request.resource.data.role in ['client', 'laveur']
+        && request.resource.data.statut == (request.resource.data.role == 'client' ? 'actif' : 'en_attente');
+      // Le role et le statut ne changent que par l'admin.
+      allow update: if signedIn() && (
+        isAdmin() ||
+        (userId == uid()
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.statut == resource.data.statut
+          && photosOk())
+      );
+    }
+
+    // Profil public du laveur (services, tarifs, quartiers, photos).
+    match /laveurs/{laveurId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && laveurId == uid() && me().role == 'laveur' && photosOk();
+    }
+
+    // Tarifs de reference (modifies par l'admin).
+    match /tarifs/{tarifId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- Commandes ----------
+    match /commandes/{id} {
+      allow read: if signedIn() && (
+        isAdmin() ||
+        resource.data.clientId == uid() ||
+        resource.data.laveurId == uid() ||
+        (isLaveurActif() && resource.data.statut == 'en_attente')
+      );
+
+      allow create: if signedIn() && me().role == 'client'
+        && request.resource.data.clientId == uid()
+        && request.resource.data.statut == 'en_attente'
+        && request.resource.data.total is number
+        && request.resource.data.total >= 0;
+
+      allow update: if signedIn() && (
+        isAdmin() ||
+        (request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['statut', 'laveurId', 'laveurNom', 'updatedAt'])
+          && (
+            // le client annule tant que personne n'a accepte
+            (resource.data.clientId == uid() && resource.data.statut == 'en_attente'
+              && request.resource.data.statut == 'annulee')
+            // un laveur actif accepte
+            || (isLaveurActif() && resource.data.statut == 'en_attente'
+              && request.resource.data.statut == 'acceptee'
+              && request.resource.data.laveurId == uid())
+            // le laveur de la commande la fait avancer
+            || (resource.data.laveurId == uid()
+              && request.resource.data.statut in ['en_cours', 'terminee'])
+          ))
+      );
+
+      // Contact du client : visible seulement par lui, son laveur et l'admin.
+      match /prive/{docId} {
+        allow read: if signedIn() && (
+          isAdmin() ||
+          get(/databases/$(database)/documents/commandes/$(id)).data.clientId == uid() ||
+          get(/databases/$(database)/documents/commandes/$(id)).data.laveurId == uid()
+        );
+        allow create: if signedIn()
+          && get(/databases/$(database)/documents/commandes/$(id)).data.clientId == uid();
+      }
+    }
+
+    // ---------- Avis ----------
+    match /avis/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.clientId == uid()
+        && request.resource.data.note is int
+        && request.resource.data.note >= 1 && request.resource.data.note <= 5;
+    }
+  }
+}

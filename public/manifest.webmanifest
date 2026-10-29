@@ -1,0 +1,17 @@
+{
+  "name": "LAV - Lavegabon",
+  "short_name": "LAV",
+  "description": "Du propre, chez vous. Laveurs a domicile au Gabon.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F4F8F6",
+  "theme_color": "#0B8F5A",
+  "lang": "fr",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
