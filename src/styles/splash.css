@@ -1,0 +1,24 @@
+.sp{position:fixed;inset:0;z-index:99999;background:#9a5a46;overflow:hidden;cursor:pointer;transition:opacity .7s ease}
+.sp.out{opacity:0;pointer-events:none}
+.sp-svg{position:absolute;inset:0;width:100%;height:100%}
+.sp-jet{fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:sp-draw .55s ease-out .1s forwards,sp-off .4s ease-in 2.3s forwards}
+.sp-j1{stroke:rgba(190,230,255,.65);stroke-width:15}
+.sp-j2{stroke:#fff;stroke-width:6}
+@keyframes sp-draw{to{stroke-dashoffset:0}}
+@keyframes sp-off{to{opacity:0}}
+.sp-col{fill:rgba(11,79,168,.82);transform-box:fill-box;transform-origin:top;transform:scaleY(0);animation-name:sp-fall;animation-timing-function:ease-in-out;animation-fill-mode:forwards}
+@keyframes sp-fall{to{transform:scaleY(1)}}
+.sp-drip{fill:none;stroke:rgba(205,236,255,.85);stroke-linecap:round;stroke-dasharray:640;stroke-dashoffset:640;animation:sp-run 1.8s ease-in forwards}
+@keyframes sp-run{to{stroke-dashoffset:0}}
+.sp-ring{fill:none;stroke:#fff;stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center;animation:sp-ring .8s ease-out var(--d) 3}
+@keyframes sp-ring{0%{transform:scale(.3);opacity:.9}100%{transform:scale(5);opacity:0}}
+.sp-dr{fill:#fff;opacity:0;animation:sp-dr .8s ease-out var(--d) 3}
+@keyframes sp-dr{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.sp-brand{position:absolute;left:0;right:0;top:56%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.sp-brand img{width:84px;height:84px;opacity:0;animation:sp-in .6s ease-out 2.35s forwards}
+.sp-name{display:flex;gap:10px;font-size:6rem;line-height:1;font-weight:900;font-style:italic;letter-spacing:.04em;text-shadow:0 4px 12px rgba(0,20,60,.5)}
+.sp-name span{opacity:0;transform:translateY(24px) scale(.8);animation:sp-pop .6s cubic-bezier(.2,1.4,.4,1) forwards}
+.sp-brand p{margin:0;color:#FFD23F;font-size:1.4rem;font-weight:800;opacity:0;animation:sp-in .6s ease-out 3.2s forwards}
+@keyframes sp-pop{to{opacity:1;transform:none}}
+@keyframes sp-in{to{opacity:1}}
+.sp-hint{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:rgba(255,255,255,.85);font-size:1rem}

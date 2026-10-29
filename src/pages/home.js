@@ -4,6 +4,7 @@ import { ecouterCommandesClient, ecouterDemandesOuvertes, lireLaveur, filtrerPou
 import { rafraichirProfil } from '../lib/auth.js';
 import { blocDevenirLaveur, brancherDevenirLaveur } from '../lib/devenir.js';
 import { blocAnnuaire, brancherAnnuaire } from '../lib/annuaire.js';
+import { tuilesAccueil, brancherTuiles } from '../lib/tuiles.js';
 
 const MAX = 3;
 
@@ -43,14 +44,16 @@ export default async function home(el, { state }) {
       <h1>${nomHtml()}</h1>
       <p class="slogan">${APP.slogan}</p>
       <p>Faites laver votre linge, votre lessive ou votre vaisselle par un laveur de votre quartier, directement à la maison.</p>
-      <div class="actions">${cta}</div>
+      
     </section>
+
+    ${tuilesAccueil(role)}
 
     ${blocAnnuaire()}
 
     ${blocDemandes}
 
-    <section class="card">
+    <section class="card" id="comment">
       <h2>Comment ça marche</h2>
       <ol class="steps">
         <li><b>Décrivez</b> ce qu'il y a à laver : service, quantité, quartier, date et heure.</li>
@@ -75,6 +78,7 @@ export default async function home(el, { state }) {
 
   brancherDevenirLaveur(el, state);
   brancherAnnuaire(el, state);
+  brancherTuiles(el);
 
   const dem = el.querySelector('#dem');
   if (!dem) return;
