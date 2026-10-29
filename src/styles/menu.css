@@ -17,3 +17,4 @@ body .drawer .dlogout{font-size:1.1rem;min-height:56px}
 .alertes-panel .sw input[type=checkbox]:checked::after{transform:translateX(24px)}
 .alertes-panel .sw input[type=checkbox]:disabled{opacity:.5}
 .alertes-panel #sw-msg{margin:8px 12px 12px}
+body .drawer .dinstall{display:flex;align-items:center;justify-content:center;width:calc(100% - 32px);margin:14px 16px;min-height:56px;border:0;border-radius:14px;background:#0B63C5;color:#fff;font:600 1.1rem system-ui,sans-serif;cursor:pointer}

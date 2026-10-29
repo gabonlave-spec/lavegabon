@@ -131,6 +131,7 @@ function coque() {
          <div class="dhead">${estAdmin ? 'Administration' : 'Menu'}</div>
          <nav>${entrees.map(([p, t, i]) =>
            `<a href="#${p}" class="${p === actif ? 'on' : ''}">${ico(i, 26)}<span>${t}</span></a>`).join('')}</nav>
+         <button class="dinstall" type="button" data-lav-install>📲 Installer l'application</button>
          ${state.user ? '<button class="dlogout" id="dout" type="button">Se déconnecter</button>' : ''}
        </aside>`;
 

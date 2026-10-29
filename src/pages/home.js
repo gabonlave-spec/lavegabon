@@ -44,6 +44,7 @@ export default async function home(el, { state }) {
       <h1>${nomHtml()}</h1>
       <p class="slogan">${APP.slogan}</p>
       <p>Faites laver votre linge, votre lessive ou votre vaisselle par un laveur de votre quartier, directement à la maison.</p>
+      <p><button class="btn primary" type="button" data-lav-install>📲 Installer l'application</button></p>
       
     </section>
 

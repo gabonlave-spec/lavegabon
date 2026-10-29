@@ -89,7 +89,7 @@ window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); evt 
 window.addEventListener('appinstalled', () => { evt = null; fermerGuide(); maj(); });
 document.addEventListener('click', (e) => {
   const t = e.target && e.target.closest && e.target.closest('[data-lav-install]');
-  if (t) { e.preventDefault(); installer(); }
+  if (t) { e.preventDefault(); document.body.classList.remove('menu-open'); installer(); }
 });
 
 function init() {
@@ -105,7 +105,7 @@ function init() {
     try { localStorage.setItem(CLE, String(Date.now())); } catch (e) {}
     maj();
   });
-  document.body.appendChild(b);
+  // bouton flottant retire : accueil + menu
   maj();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
