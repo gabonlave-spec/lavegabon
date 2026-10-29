@@ -109,7 +109,9 @@ function coque() {
        <button class="hbtn" id="hbell" type="button" aria-label="Notifications">${CLOCHE}<span class="dot" id="hdot" hidden></span></button>
        <a href="#/profil" class="hbtn avatar ${actif === '/profil' ? 'on' : ''}" aria-label="Mon profil">${photoHeader ? `<img src="${esc(photoHeader)}" alt="">` : (initiale || ico('user', 22))}</a>
        <button class="hbtn" id="hout" type="button" aria-label="Se déconnecter">${ico('logout', 22)}</button>`
-    : `<a href="#/connexion" class="hbtn ${actif === '/connexion' ? 'on' : ''}" aria-label="Se connecter">${ico('login', 22)}</a>`;
+    : `<button class="hbtn" id="hsearch" type="button" aria-label="Rechercher">${LOUPE}</button>
+       <button class="hbtn" id="hbellv" type="button" aria-label="Notifications">${CLOCHE}</button>
+       <a href="#/connexion" class="hbtn avatar ${actif === '/connexion' ? 'on' : ''}" aria-label="Se connecter">${ico('user', 22)}</a>`;
 
   const burger = estAdmin
     ? `<button class="hbtn burger" id="hmenu" type="button" aria-label="Ouvrir le menu" aria-expanded="false">${BURGER}</button>` : '';
@@ -145,6 +147,8 @@ function coque() {
     } else toast('La recherche arrive bientôt.', 'info');
   });
   brancherCloche(state);
+  const clocheV = document.getElementById('hbellv');
+  if (clocheV) clocheV.addEventListener('click', () => { toast('Connecte-toi pour voir tes notifications.', 'info'); aller('/connexion'); });
 
   if (estAdmin) {
     const menu = document.getElementById('hmenu');
