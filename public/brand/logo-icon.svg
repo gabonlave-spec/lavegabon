@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E9BF0"/><stop offset=".55" stop-color="#0B63C5"/><stop offset="1" stop-color="#0B4FA8"/></linearGradient>
+<linearGradient id="dr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D4EEFF"/></linearGradient>
+<linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E88E5"/><stop offset="1" stop-color="#0B4FA8"/></linearGradient>
+<radialGradient id="gl" cx=".3" cy=".25" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1024" height="1024" rx="230" fill="url(#bg)"/><rect width="1024" height="1024" rx="230" fill="url(#gl)"/>
+<g transform="translate(0,-40)"><g>
+<path d="M512 170C512 170 300 420 300 580C300 697 394 790 512 790C630 790 724 697 724 580C724 420 512 170 512 170Z" fill="url(#dr)"/>
+<path d="M512 520 L420 598 H446 V690 H578 V598 H604 Z" fill="url(#hs)" stroke="url(#hs)" stroke-width="14" stroke-linejoin="round"/>
+<rect x="494" y="630" width="36" height="60" rx="6" fill="#fff"/>
+<path d="M360 600C360 540 392 480 430 430" stroke="#fff" stroke-opacity=".9" stroke-width="16" stroke-linecap="round" fill="none"/>
+<circle cx="712" cy="330" r="30" fill="#fff" fill-opacity=".9"/><circle cx="782" cy="420" r="17" fill="#FCD116"/>
+<circle cx="262" cy="380" r="22" fill="#fff" fill-opacity=".85"/><circle cx="238" cy="470" r="11" fill="#FCD116"/>
+<circle cx="760" cy="520" r="10" fill="#fff" fill-opacity=".8"/>
+</g></g><g transform="translate(0,-20)"><path d="M441.056 892.328H462.56V905.0H424.64V837.608H441.056ZM512.384 893.096H487.232L483.20000000000005 905.0H466.016L490.40000000000003 837.608H509.408L533.792 905.0H516.416ZM508.16 880.424 499.808 855.752 491.552 880.424ZM604.448 837.608 580.544 905.0H560.0L536.096 837.608H553.568L570.2719999999999 888.488L587.072 837.608Z" fill="#FFFFFF" opacity=".95"/></g></svg>

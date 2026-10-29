@@ -4,7 +4,7 @@
 .scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 900; }
 .drawer {
   position: fixed; top: 0; left: 0; bottom: 0; width: min(82vw, 300px);
-  background: #055a3a; color: #fff; z-index: 901;
+  background: #0B4FA8; color: #fff; z-index: 901;
   transform: translateX(-102%); transition: transform .25s ease;
   display: flex; flex-direction: column; overflow-y: auto;
   box-shadow: 4px 0 24px rgba(0, 0, 0, .35);
@@ -25,20 +25,20 @@ body.menu-open .scrim { opacity: 1; pointer-events: auto; }
 
 /* ---- Pages admin ---- */
 .bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-.bar input, .bar select { flex: 1; min-width: 130px; padding: 11px 12px; border: 2px solid #d3e0da; border-radius: 12px; font: inherit; background: #fff; }
+.bar input, .bar select { flex: 1; min-width: 130px; padding: 11px 12px; border: 2px solid #C5D9F0; border-radius: 12px; font: inherit; background: #fff; }
 .shortcuts a { display: block; margin-bottom: 10px; text-align: center; }
 .ca { text-align: center; margin-top: 14px; }
-.tarif { border: 1px solid #d3e0da; border-radius: 12px; margin: 0 0 12px; padding: 8px 12px 12px; }
+.tarif { border: 1px solid #C5D9F0; border-radius: 12px; margin: 0 0 12px; padding: 8px 12px 12px; }
 .tarif legend { font-weight: 700; padding: 0 6px; }
 .tarif label { display: block; margin-top: 8px; }
-.tarif input { width: 100%; box-sizing: border-box; padding: 11px 12px; border: 2px solid #d3e0da; border-radius: 12px; font: inherit; }
+.tarif input { width: 100%; box-sizing: border-box; padding: 11px 12px; border: 2px solid #C5D9F0; border-radius: 12px; font: inherit; }
 
 /* ---- Tableau des prix : la colonne des prix ne passe plus a la ligne ---- */
 .card table td:last-child, .card table th:last-child { white-space: nowrap; padding-left: 8px; padding-right: 8px; }
 
 /* ---- En-tete : boutons contrastes (fond clair, icone verte) ---- */
-.top .hbtn:not(.avatar) { background: #fff; color: #055a3a; border: 2px solid #fff; position: relative; }
-.top .hbtn:not(.avatar):active { background: #e6f2ec; }
+.top .hbtn:not(.avatar) { background: #fff; color: #0B4FA8; border: 2px solid #fff; position: relative; }
+.top .hbtn:not(.avatar):active { background: #DCEBFB; }
 .top .hbtn.on:not(.avatar) { border-color: #ffd23f; box-shadow: 0 0 0 2px #ffd23f; }
 .top .hbtn.avatar { color: #1a1a1a; border: 2px solid #fff; }
 .top .hbtn.avatar.on { box-shadow: 0 0 0 2px #fff; }

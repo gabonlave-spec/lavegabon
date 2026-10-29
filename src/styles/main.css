@@ -1,6 +1,6 @@
 :root {
-  --vert: #0B8F5A; --vert-fonce: #06583A; --jaune: #FFD23F; --bleu: #0A5FC0;
-  --fond: #F4F8F6; --carte: #FFFFFF; --encre: #12302A; --doux: #5B716B; --trait: #D9E5E0;
+  --vert: #0B63C5; --vert-fonce: #0B4FA8; --jaune: #FFD23F; --bleu: #0B63C5;
+  --fond: #EAF3FD; --carte: #FFFFFF; --encre: #0F2A4A; --doux: #5B6B7B; --trait: #D5E3F3;
   --rouge: #C23B3B;
   --rayon: 14px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -86,7 +86,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, .btn:focus-vi
 fieldset.choix { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
 fieldset.choix legend { font-weight: 600; font-size: .92rem; margin-bottom: .3rem; padding: 0; }
 fieldset.choix label { border: 1.5px solid var(--trait); border-radius: 10px; padding: .65rem; display: block; cursor: pointer; }
-fieldset.choix label:has(input:checked) { border-color: var(--vert); background: #E8F6EF; }
+fieldset.choix label:has(input:checked) { border-color: var(--vert); background: #E3F0FD; }
 fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 .geo { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
 .recap { background: var(--fond); border-radius: 10px; padding: .8rem; display: grid; gap: .3rem; }
@@ -116,8 +116,8 @@ fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 .item header { display: flex; justify-content: space-between; align-items: center; gap: .6rem; margin-bottom: .3rem; }
 .item header h3 { margin: 0; }
 .badge { display: inline-block; padding: .12rem .6rem; border-radius: 99px; font-size: .78rem; font-weight: 700; }
-.badge.wait { background: #FFF1C2; color: #6b4e00; } .badge.ok { background: #D7F2E3; color: #05603B; }
-.badge.run { background: #D9E8FA; color: #0A4A99; } .badge.done { background: #E4E9E7; color: #334; }
+.badge.wait { background: #FFF1C2; color: #6b4e00; } .badge.ok { background: #CFE3FA; color: #05603B; }
+.badge.run { background: #D9E8FA; color: #0A4A99; } .badge.done { background: #E1E8F0; color: #334; }
 .badge.off { background: #F7D9D9; color: #8a1f1f; }
 .gain { font-size: 1.05rem; } .gain b { color: var(--vert-fonce); }
 .info { display: grid; grid-template-columns: auto 1fr; gap: .3rem .9rem; margin: 0 0 .5rem; }
@@ -150,7 +150,7 @@ fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 .table-wrap { border: 1px solid var(--trait); border-radius: 12px; overflow: hidden; margin: .4rem auto .9rem; max-width: 34rem; }
 .tarifs { width: 100%; border-collapse: collapse; text-align: center; font-size: .95rem; }
 .tarifs thead th { background: var(--vert-fonce); color: #fff; padding: .65rem .4rem; font-size: .82rem; letter-spacing: .04em; text-transform: uppercase; }
-.tarifs tbody th { background: #EEF6F2; font-weight: 700; padding: .6rem .5rem; border-bottom: 1px solid var(--trait); }
+.tarifs tbody th { background: #EEF5FD; font-weight: 700; padding: .6rem .5rem; border-bottom: 1px solid var(--trait); }
 .tarifs td { padding: .6rem .4rem; border-bottom: 1px solid var(--trait); border-left: 1px solid var(--trait); }
 .tarifs tbody tr:last-child th, .tarifs tbody tr:last-child td { border-bottom: 0; }
 .tarifs td b { color: var(--vert-fonce); white-space: nowrap; }
