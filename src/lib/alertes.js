@@ -1,7 +1,8 @@
 // Alertes niveau 1 : cloche, pastille, liste, son et vibration, selon le profil connecté.
-import { collection, limit, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, doc, limit, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase.js';
 import { esc, toast } from './ui.js';
+import { filtrerPourLaveur } from './db.js';
 
 const ts = (d) => d.updatedAt?.toMillis?.() ?? d.createdAt?.toMillis?.() ?? 0;
 const qte = (c) => [c.quantite, c.unite].filter(Boolean).join(' ');
@@ -31,7 +32,8 @@ function sources(uid, role, statut) {
       q: () => query(cmd, where('statut', '==', 'en_attente'), limit(50)),
       map: (id, d) => ({
         id: `dem-${id}`, title: d.urgent ? 'Nouvelle demande (urgent)' : 'Nouvelle demande',
-        body: [d.serviceLabel, qte(d)].filter(Boolean).join(' · '), link: '/demandes', at: ts(d)
+        body: [d.serviceLabel, qte(d)].filter(Boolean).join(' · '), link: '/demandes', at: ts(d),
+        ok: () => filtrerPourLaveur([d], profilLaveur).length > 0
       })
     }];
   }
@@ -61,6 +63,7 @@ let items = [];
 let lus = [];
 let audio = null;
 let debloque = false;
+let profilLaveur = {};
 
 const cleLus = () => 'lav_alertes_lues_' + uidCourant;
 function chargerLus() { try { return JSON.parse(localStorage.getItem(cleLus()) || '[]'); } catch { return []; } }
@@ -139,7 +142,19 @@ function majUI() {
 
 function arreter() {
   offs.forEach((o) => o());
-  offs = []; par = new Map(); premiers = new Set(); connus = null; items = []; lus = [];
+  offs = []; par = new Map(); premiers = new Set(); connus = null; items = []; lus = []; profilLaveur = {};
+}
+
+function recalculer() {
+  items = [...par.values()].flat().filter((a) => !a.ok || a.ok()).sort((a, b) => b.at - a.at);
+  if (premiers.size < nbSources) return;
+  if (connus === null) { connus = new Set(items.map((a) => a.id)); return; }
+  for (const a of items) {
+    if (!connus.has(a.id)) {
+      connus.add(a.id);
+      if (!lus.includes(a.id)) { sonner(); toast(a.title, 'info'); }
+    }
+  }
 }
 
 function synchroniser(state) {
@@ -154,23 +169,22 @@ function synchroniser(state) {
   uidCourant = u.uid;
   lus = chargerLus();
   const src = sources(u.uid, p.role, p.statut);
-  nbSources = src.length;
+  const laveur = p.role === 'laveur' && p.statut === 'actif';
+  nbSources = src.length + (laveur ? 1 : 0);
+  if (laveur) {
+    // Quartiers et services du laveur : mêmes règles que la page « Demandes près de toi ».
+    offs.push(onSnapshot(doc(db, 'laveurs', u.uid), (snap) => {
+      profilLaveur = snap.exists() ? snap.data() : {};
+      premiers.add('profil');
+      recalculer();
+      majUI();
+    }, () => { premiers.add('profil'); recalculer(); majUI(); }));
+  }
   src.forEach((s, i) => {
     offs.push(onSnapshot(s.q(), (snap) => {
       par.set(i, snap.docs.map((d) => s.map(d.id, d.data())).filter(Boolean));
       premiers.add(i);
-      items = [...par.values()].flat().sort((a, b) => b.at - a.at);
-      if (premiers.size >= nbSources) {
-        if (connus === null) connus = new Set(items.map((a) => a.id));
-        else {
-          for (const a of items) {
-            if (!connus.has(a.id)) {
-              connus.add(a.id);
-              if (!lus.includes(a.id)) { sonner(); toast(a.title, 'info'); }
-            }
-          }
-        }
-      }
+      recalculer();
       majUI();
     }, () => { /* droits ou réseau : on ignore */ }));
   });
