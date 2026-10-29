@@ -17,3 +17,9 @@
 .ann-svc{text-align:left;padding-left:18px}
 .ann-gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
 .ann-gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.ann-adv summary{display:block;text-align:center;list-style:none}
+.ann-adv summary::-webkit-details-marker{display:none}
+.ann-adv summary::after{content:" ▾"}
+.ann-adv[open] summary::after{content:" ▴"}
+.ann-lock{display:flex;flex-direction:column;gap:8px;margin-top:10px;padding:12px;border-radius:12px;background:var(--fond)}
+.ann-lock p{margin:0}

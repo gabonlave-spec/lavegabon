@@ -45,6 +45,7 @@ export function blocAnnuaire() {
       <label>Ville<select id="ann-ville"><option value="">Toutes</option>${opts(Object.keys(VILLES))}</select></label>
       <label>Quartier<select id="ann-qrt"><option value="">Tous</option>${opts(QUARTIERS.filter((q) => q !== 'Autre'))}</select></label>
       <label>Service<select id="ann-svc"><option value="">Tous</option>${SERVICES.map((s) => `<option value="${esc(s.id)}">${esc(s.label)}</option>`).join('')}</select></label>
+      <label>Sexe<select id="ann-sexe"><option value="">Tous</option><option value="f">Femme</option><option value="h">Homme</option></select></label>
     </details>
     <p class="muted" id="ann-info">Chargement…</p>
     <div class="ann-grid" id="ann-grid"></div>
@@ -57,12 +58,13 @@ export function brancherAnnuaire(el, state) {
   let tous = [], pos = null;
 
   const filtrer = () => {
-    const q = norm($('#ann-q').value), v = $('#ann-ville').value, qr = $('#ann-qrt').value, sv = $('#ann-svc').value;
+    const q = norm($('#ann-q').value), v = $('#ann-ville').value, qr = $('#ann-qrt').value, sv = $('#ann-svc').value, sx = $('#ann-sexe').value;
     let L = tous.filter((l) => {
       const z = zonesDe(l);
       if (v && !z.some((x) => VILLES[v].includes(x))) return false;
       if (qr && !z.includes(qr)) return false;
       if (sv && !(l.services || []).includes(sv)) return false;
+      if (sx && !(sx === 'f' ? norm(l.sexe).startsWith('f') : /^(h|m)/.test(norm(l.sexe)))) return false;
       if (q && !norm([l.nom, l.bio, z.join(' '), (l.services || []).join(' ')].join(' ')).includes(q)) return false;
       return true;
     });
@@ -91,7 +93,7 @@ export function brancherAnnuaire(el, state) {
     }).join('');
   };
 
-  ['#ann-q', '#ann-ville', '#ann-qrt', '#ann-svc'].forEach((s) => $(s).addEventListener('input', filtrer));
+  ['#ann-q', '#ann-ville', '#ann-qrt', '#ann-svc', '#ann-sexe'].forEach((s) => $(s).addEventListener('input', filtrer));
   $('#ann-ville').addEventListener('change', () => {
     const v = $('#ann-ville').value;
     const liste = (v ? VILLES[v] : QUARTIERS.filter((q) => q !== 'Autre'));
@@ -114,7 +116,7 @@ export function brancherAnnuaire(el, state) {
 
   getDocs(collection(db, 'laveurs')).then((s) => {
     tous = s.docs.map((d) => ({ _id: d.id, ...d.data() }))
-      .filter((l) => l.nom && (l.services || []).length && zonesDe(l).length);
+      .filter((l) => l.nom && zonesDe(l).length);
     filtrer();
   }).catch(() => { $('#ann-info').textContent = "Liste indisponible pour l'instant."; });
 }
@@ -128,17 +130,21 @@ function fiche(l, state) {
   const role = state.user ? state.profile?.role : null;
   const lien = role === 'client' ? '#/commander' : (state.user ? '#/' : '#/inscription');
   const cta = role === 'laveur' || role === 'admin' ? '' : `<a class="btn primary" href="${lien}">${role === 'client' ? 'Faire une demande' : 'Créer un compte pour commander'}</a>`;
+  const contact = !state.user
+    ? `<div class="ann-lock"><p><b>Veuillez vous inscrire pour contacter ce laveur.</b></p><a class="btn primary" href="#/inscription">Créer un compte</a><a class="btn ghost" href="#/connexion">Se connecter</a></div>`
+    : cta;
   const m = document.createElement('div');
   m.className = 'ann-modal';
   m.innerHTML = `<div class="ann-sheet" role="dialog" aria-modal="true">
     <button class="ann-x" type="button" aria-label="Fermer">×</button>
     ${grand}<h2>${esc(l.nom)}</h2>
     <p class="muted">${esc(zonesDe(l).join(', '))}</p>
+    ${l.sexe ? `<p class="muted">${esc(l.sexe)}</p>` : ''}
     ${l.disponibilites ? `<p><b>Disponibilités :</b> ${esc(l.disponibilites)}</p>` : ''}
     ${l.bio ? `<p>${esc(l.bio)}</p>` : ''}
     ${svc ? `<h3>Services et tarifs</h3><ul class="ann-svc">${svc}</ul>` : ''}
     ${gal ? `<h3>Photos</h3><div class="ann-gal">${gal}</div>` : ''}
-    ${cta}</div>`;
+    ${contact}</div>`;
   const fermer = () => m.remove();
   m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('.ann-x') || e.target.closest('a')) fermer(); });
   document.body.appendChild(m);
