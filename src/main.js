@@ -1,3 +1,4 @@
+import { brancherCloche } from './lib/alertes.js';
 import './styles/main.css';
 import './styles/admin.css';
 import './styles/photos.css';
@@ -143,9 +144,7 @@ function coque() {
       setTimeout(() => { const q = document.getElementById('q'); if (q) q.focus(); }, 400);
     } else toast('La recherche arrive bientôt.', 'info');
   });
-  // Cloche : le point rouge (#hdot) s'affichera quand les notifications seront branchées (étape D).
-  const cloche = document.getElementById('hbell');
-  if (cloche) cloche.addEventListener('click', () => toast('Aucune notification pour le moment.', 'info'));
+  brancherCloche(state);
 
   if (estAdmin) {
     const menu = document.getElementById('hmenu');

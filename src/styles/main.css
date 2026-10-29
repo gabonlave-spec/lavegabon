@@ -172,3 +172,14 @@ fieldset.choix small { display: block; font-weight: 400; color: var(--doux); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 @media (min-width: 700px) { main { padding-top: 1.5rem; } }
+
+/* Alertes : cloche, pastille, liste */
+.dot.num{min-width:18px;height:18px;padding:0 4px;border-radius:99px;font-size:11px;font-weight:700;line-height:18px;text-align:center;color:#fff;background:#E53935;box-sizing:border-box}
+.alertes-panel{position:fixed;top:calc(env(safe-area-inset-top,0px) + 62px);right:.5rem;z-index:200;width:min(22rem,94vw);max-height:70vh;overflow-y:auto;background:var(--carte);color:var(--encre);border:1px solid var(--trait);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:.4rem}
+.alertes-tete{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.4rem .5rem;font-size:.9rem}
+.alertes-tete button{background:none;border:0;color:var(--bleu);font-weight:700;text-decoration:underline;font-size:.8rem;cursor:pointer}
+.alerte{display:block;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:.55rem .6rem;color:var(--encre);opacity:.65;cursor:pointer;font:inherit}
+.alerte b{display:block;font-size:.9rem}
+.alerte span{display:block;font-size:.8rem;color:var(--doux)}
+.alerte.nonlu{background:var(--fond);opacity:1;border-left:4px solid var(--bleu)}
+.alertes-vide{padding:1rem .6rem;color:var(--doux);font-size:.9rem;margin:0}
