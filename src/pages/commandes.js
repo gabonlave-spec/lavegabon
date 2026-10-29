@@ -17,7 +17,7 @@ export default function commandes(el, { state }) {
         <p>${c.quantite} ${esc(c.unite)} · <b>${fcfa(c.total)}</b></p>
         <p class="muted">${fmtDate(c.date, c.heure)} · ${esc(c.quartier)}</p>
         ${c.laveurNom ? `<p>Laveur : <b>${esc(c.laveurNom)}</b></p>` : '<p class="muted">En attente d\'un laveur</p>'}
-        ${c.statut === 'en_attente' ? `<button class="btn ghost small" data-annuler="${c.id}">Annuler</button>` : ''}
+        ${c.statut === 'en_attente' ? `<button class="btn ghost small" data-annuler="${esc(c.id)}">Annuler</button>` : ''}
       </article>`).join('');
   }, (e) => { liste.innerHTML = `<p class="error">${messageErreur(e)}</p>`; });
 

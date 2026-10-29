@@ -19,7 +19,7 @@ export default async function profil(el, { state, logout, aller }) {
       const coche = (lav.services || []).includes(s.id);
       const prix = s.unites.map((u) => `
         <label class="mini">${u}
-          <input type="number" min="0" step="50" name="prix_${s.id}_${u}" value="${lav.tarifs?.[s.id]?.[u] ?? s.prixRef[u]}">
+          <input type="number" min="0" step="50" name="prix_${s.id}_${u}" value="${esc(lav.tarifs?.[s.id]?.[u] ?? s.prixRef[u])}">
         </label>`).join('');
       return `<div class="svc"><label class="check"><input type="checkbox" name="svc" value="${s.id}" ${coche ? 'checked' : ''}> ${s.label}</label><div class="row">${prix}</div></div>`;
     }).join('');

@@ -80,8 +80,8 @@ export async function pageCommandes(el) {
         <p class="muted">${esc(c.quartier || '')} · ${esc(date)} · ${esc(c.quantite || '')} ${esc(c.unite || '')}</p>
         <p><b>${fcfa(c.total)}</b>${c.laveurNom ? ` · laveur : ${esc(c.laveurNom)}` : ' · pas encore de laveur'}</p>
         ${actif ? `<div class="actions">
-          ${c.statut !== 'en_attente' ? `<button class="btn primary small" data-act="terminer" data-id="${c.id}">Marquer terminée</button>` : ''}
-          <button class="btn ghost small" data-act="annuler" data-id="${c.id}">Annuler</button></div>` : ''}
+          ${c.statut !== 'en_attente' ? `<button class="btn primary small" data-act="terminer" data-id="${esc(c.id)}">Marquer terminée</button>` : ''}
+          <button class="btn ghost small" data-act="annuler" data-id="${esc(c.id)}">Annuler</button></div>` : ''}
       </article>`;
     }).join('') : '<p class="muted">Aucune commande.</p>';
   }
@@ -122,8 +122,8 @@ export async function pageDemandes(el) {
           <header><h3>${esc(u.nom)}</h3><span class="badge wait">Demande</span></header>
           <p class="muted">${esc(u.telephone)} · ${esc(u.email)} · ${esc(u.quartier || '')}</p>
           <div class="actions">
-            <button class="btn primary small" data-act="approuver" data-id="${u.id}">Accepter</button>
-            <button class="btn ghost small" data-act="refuser" data-id="${u.id}">Refuser</button>
+            <button class="btn primary small" data-act="approuver" data-id="${esc(u.id)}">Accepter</button>
+            <button class="btn ghost small" data-act="refuser" data-id="${esc(u.id)}">Refuser</button>
           </div>
         </article>`).join('') : '<p class="muted">Aucune demande en attente.</p>';
     } catch (e) { liste.innerHTML = erreur(e); }
@@ -157,8 +157,8 @@ function pageUtilisateurs({ titre, vide, lister, avecDetails }) {
           <header><h3>${esc(u.nom)}</h3><span class="badge ${classeStatut(u.statut)}">${esc(u.statut || '')}</span></header>
           <p class="muted">${esc(u.telephone || '')} · ${esc(u.quartier || '')}${avecDetails ? ` · ${esc(u.sexe || '')} ${u.age ? u.age + ' ans' : ''}` : ` · ${esc(u.email || '')}`}</p>
           <div class="actions">
-            ${u.statut !== 'actif' ? `<button class="btn primary small" data-s="actif" data-id="${u.id}">${avecDetails ? 'Valider' : 'Réactiver'}</button>` : ''}
-            ${u.statut !== 'suspendu' ? `<button class="btn ghost small" data-s="suspendu" data-id="${u.id}">Suspendre</button>` : ''}
+            ${u.statut !== 'actif' ? `<button class="btn primary small" data-s="actif" data-id="${esc(u.id)}">${avecDetails ? 'Valider' : 'Réactiver'}</button>` : ''}
+            ${u.statut !== 'suspendu' ? `<button class="btn ghost small" data-s="suspendu" data-id="${esc(u.id)}">Suspendre</button>` : ''}
           </div>
         </article>`).join('') : `<p class="muted">${vide}</p>`;
     }

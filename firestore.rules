@@ -107,7 +107,7 @@ service cloud.firestore {
     // ---------- Avis ----------
     match /avis/{id} {
       allow read: if signedIn();
-      allow create: if signedIn() && request.resource.data.clientId == uid()
+      allow create: if signedIn() && me().role == 'client' && request.resource.data.clientId == uid()
         && request.resource.data.note is int
         && request.resource.data.note >= 1 && request.resource.data.note <= 5;
     }

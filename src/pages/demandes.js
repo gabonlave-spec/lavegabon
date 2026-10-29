@@ -24,9 +24,9 @@ export default async function demandes(el, { state }) {
         <p>${c.quantite} ${esc(c.unite)}${c.urgent ? ' · <span class="badge wait">Urgent</span>' : ''}</p>
         <p class="muted">${fmtDate(c.date, c.heure)} · ${esc(c.quartier)}</p>
         <p>${esc(c.adresse)}</p>
-        ${c.position ? `<p><a target="_blank" rel="noopener" href="${lienCarte(c.position.lat, c.position.lng)}">Voir sur la carte</a></p>` : ''}
+        ${c.position ? `<p><a target="_blank" rel="noopener" href="${lienCarte(Number(c.position.lat), Number(c.position.lng))}">Voir sur la carte</a></p>` : ''}
         ${c.details ? `<p class="muted">${esc(c.details)}</p>` : ''}
-        <button class="btn primary small" data-accepter="${c.id}">Accepter</button>
+        <button class="btn primary small" data-accepter="${esc(c.id)}">Accepter</button>
       </article>`).join('');
   }, (e) => { liste.innerHTML = `<p class="error">${messageErreur(e)}</p>`; });
 
